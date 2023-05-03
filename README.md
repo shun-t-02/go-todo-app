@@ -20,3 +20,8 @@ docker-compose exec go-todo-app sh
 ```
 go run cmd/todoapp/main.go
 ```
+
+# 個人的メモ
+- vebdorはgitにあげるのであってる？
+- 以下はちゃんと読んでいない　マウントしているからローカル開発としてはいい気がするけど
+  - https://matsuand.github.io/docs.docker.jp.onthefly/language/golang/build-images/
