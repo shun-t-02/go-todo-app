@@ -9,7 +9,6 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
-	"os"
 	"text/template"
 	"time"
 
@@ -60,7 +59,7 @@ func formatDateTime(d time.Time) string {
 }
 
 func main() {
-	sqldb, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	sqldb, err := sql.Open("postgres", "host=go-todo-db user=postgres password=postgres dbname=go_todo_db sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}

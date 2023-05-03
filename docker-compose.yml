@@ -1,0 +1,38 @@
+version: '3' # composeファイルのバージョン
+services:
+  # golang
+  go-todo-app: # サービス名
+    container_name: go-todo-app
+    build: # ビルドに使うDockerファイルのパス
+      context: .
+      dockerfile: ./build/app/Dockerfile
+    volumes: # マウントディレクトリ
+      - ./go-todo-app:/go-todo-app
+    tty: true # コンテナの永続化
+    env_file: # .envファイル
+      - ./build/.go_env
+    environment:
+      - TZ=Asia/Tokyo
+    depends_on:
+      - db
+    ports:
+      - 8989:8989
+
+  # posttgresql
+  db:
+    container_name: go-todo-db
+    build:
+      context: .
+      dockerfile: ./build/postgresql/Dockerfile
+    environment:
+      - POSTGRES_DB=go_todo_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db-store:/var/lib/postgresql/data
+      - ./app/database/init:/docker-entrypoint-initdb.d # DBを初期化
+    ports:
+      - 5432:5432
+
+volumes:
+  db-store:
